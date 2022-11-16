@@ -51,7 +51,7 @@ if (token != undefined) {
 
     //サーバーに招待された時の処理
     client.on('guildCreate', guild => {
-
+        console.log("joined new server")
         guild.channels.create({
             name: "bp_news",
         }).then(() => {
