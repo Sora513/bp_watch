@@ -87,7 +87,7 @@ if (token != undefined) {
                         try {
                             pre = JSON.parse(preText)
                             var def = res.filter(obj => pre.some(preInner => preInner.newsId == obj.newsId) == false && obj)
-                            console.log("pre: " + pre.length + " res: " + res.length + " def: " + def.length)
+                            // console.log("pre: " + pre.length + " res: " + res.length + " def: " + def.length)
                             if (def.length < 10) {
                                 def.forEach(obj => {
                                     console.log("send def: " + obj.newsId + " " + obj.title)
