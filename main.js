@@ -29,7 +29,7 @@ if (token != undefined) {
     let http = require("https");
     const URL = "https://object-web.blue-protocol.com/news.json";
 
-    setInterval(newsWatch, 60000)
+    setInterval(newsWatch, 5000)
 
     client.on(Events.InteractionCreate, async interaction => {
         if (!interaction.isChatInputCommand()) return;
@@ -53,10 +53,10 @@ if (token != undefined) {
     client.on('guildCreate', guild => {
         console.log("joined new server")
         guild.channels.create({
-            name: "bp_news",
+            name: "bp_news_dev",
         }).then(() => {
             //招待された時のメッセージ
-            guild.channels.cache.find(ch => ch.name === "bp_news").send("招待いただきありがとうございます!このチャンネルにBLUEPROTOCOL公式サイトの更新情報をお知らせします!")
+            guild.channels.cache.find(ch => ch.name === "bp_news_dev").send("招待いただきありがとうございます!このチャンネルにBLUEPROTOCOL公式サイトの更新情報をお知らせします!")
         }).catch(err => { console.log("On create ERR: " + err) })
 
     })
@@ -86,12 +86,18 @@ if (token != undefined) {
                         preText = fs.readFileSync('log/pre.json', 'utf8')
                         try {
                             pre = JSON.parse(preText)
-                            var def = res.filter(obj => pre.some(preInner => preInner.newsId == obj.newsId) == false && obj)
+                            var preTitleArr = pre.map(a => a.title)
+                            // var def = res.filter(obj => pre.some(preInner => preInner.newsId == obj.newsId) == false && obj)
+                            var def = res.filter((obj)=>{
+                                // console.log(obj.title)
+                                return preTitleArr.some(preTitleArrInner => preTitleArrInner == obj.title) == false && obj
+                            })
                             // console.log("pre: " + pre.length + " res: " + res.length + " def: " + def.length)
+                            console.log(def)
                             if (def.length < 10) {
                                 def.forEach(obj => {
                                     console.log("send def: " + obj.newsId + " " + obj.title)
-                                    client.channels.cache.filter(ch => ch.name == "bp_news").forEach(ch => ch.send("サイトが更新されました！\n" + obj.title + "\n" + "https://blue-protocol.com/news/" + obj.newsId))
+                                    client.channels.cache.filter(ch => ch.name == "bp_news_dev").forEach(ch => ch.send("サイトが更新されました！\n" + obj.title + "\n" + "https://blue-protocol.com/news/" + obj.newsId))
                                 })
                             } else {
                                 console.error("Too much defs: " + def.length)
