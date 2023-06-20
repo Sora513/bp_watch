@@ -29,7 +29,7 @@ if (token != undefined) {
     let http = require("https");
     const URL = "https://object-web.blue-protocol.com/news.json";
 
-    setInterval(newsWatch, 5000)
+    setInterval(newsWatch, 60000)
 
     client.on(Events.InteractionCreate, async interaction => {
         if (!interaction.isChatInputCommand()) return;
